@@ -30,6 +30,7 @@
 
                     <button onclick="appendValue('0')">0</button>
                     <button onclick="appendValue('/')">/</button>
+                    <button class="delete" onclick="deleteLast()">DEL</button>
                     <button class="equal" onclick="calculateResult()">=</button>
                 </div>
             </div>
@@ -42,6 +43,11 @@
 
             function clearResult() {
                 document.getElementById("hasil").value = "";
+            }
+
+            function deleteLast() {
+                let currentValue = document.getElementById("hasil").value;
+                document.getElementById("hasil").value = currentValue.slice(0, -1);
             }
 
             function calculateResult() {
