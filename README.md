@@ -1,4 +1,3 @@
-
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -7,31 +6,44 @@
     </head>
 
     <body>
-        <div class="calculator-container">
-            <h1>MUHAMMAD FADLI ABDUL AZIZ</h1>
-            <div class="calculator">
-                <input type="text" id="hasil" disabled>
-                <div class="buttons">
-                    <button class="clear" onclick="clearResult()">C</button>
-                    <button onclick="appendValue('1')">1</button>
-                    <button onclick="appendValue('2')">2</button>
-                    <button onclick="appendValue('3')">3</button>
-                    <button onclick="appendValue('+')">+</button>
+        <div id="sidebar" class="sidebar">
+            <h2>Rumus</h2>
+            <ul>
+                <li><strong>Segitiga</strong> <br> Luas = ½ × Alas × Tinggi</li>
+                <li><strong>Persegi</strong> <br> Luas = Sisi × Sisi</li>
+                <li><strong>Persegi Panjang</strong> <br> Luas = Panjang × Lebar</li>
+            </ul>
+            <button class="closebtn" onclick="closeSidebar()">×</button>
+        </div>
 
-                    <button onclick="appendValue('4')">4</button>
-                    <button onclick="appendValue('5')">5</button>
-                    <button onclick="appendValue('6')">6</button>
-                    <button onclick="appendValue('-')">-</button>
+        <div id="main-content">
+            <div class="calculator-container">
+                <button class="openbtn" onclick="openSidebar()">☰ Rumus</button>
+                <h1>MUHAMMAD FADLI ABDUL AZIZ</h1>
+                <div class="calculator">
+                    <input type="text" id="hasil" disabled>
+                    <div class="buttons">
+                        <button class="clear" onclick="clearResult()">C</button>
+                        <button onclick="appendValue('1')">1</button>
+                        <button onclick="appendValue('2')">2</button>
+                        <button onclick="appendValue('3')">3</button>
+                        <button onclick="appendValue('+')">+</button>
 
-                    <button onclick="appendValue('7')">7</button>
-                    <button onclick="appendValue('8')">8</button>
-                    <button onclick="appendValue('9')">9</button>
-                    <button onclick="appendValue('*')">*</button>
+                        <button onclick="appendValue('4')">4</button>
+                        <button onclick="appendValue('5')">5</button>
+                        <button onclick="appendValue('6')">6</button>
+                        <button onclick="appendValue('-')">-</button>
 
-                    <button onclick="appendValue('0')">0</button>
-                    <button onclick="appendValue('/')">/</button>
-                    <button class="delete" onclick="deleteLast()">DEL</button>
-                    <button class="equal" onclick="calculateResult()">=</button>
+                        <button onclick="appendValue('7')">7</button>
+                        <button onclick="appendValue('8')">8</button>
+                        <button onclick="appendValue('9')">9</button>
+                        <button onclick="appendValue('*')">*</button>
+
+                        <button onclick="appendValue('0')">0</button>
+                        <button onclick="appendValue('/')">/</button>
+                        <button class="delete" onclick="deleteLast()">DEL</button>
+                        <button class="equal" onclick="calculateResult()">=</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,7 +68,17 @@
                     document.getElementById("hasil").value = result;
                 } catch (e) {
                     document.getElementById("hasil").value = "Error";
-                } 
+                }
+            }
+
+            function openSidebar() {
+                document.getElementById("sidebar").style.width = "250px";
+                document.getElementById("main-content").style.marginLeft = "250px";
+            }
+
+            function closeSidebar() {
+                document.getElementById("sidebar").style.width = "0";
+                document.getElementById("main-content").style.marginLeft = "0";
             }
         </script>
     </body>
@@ -65,12 +87,75 @@
         body {
             margin: 0;
             padding: 0;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #f4f4f9;
-            font-family: 'Arial', sans-serif;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            z-index: 1;
+        }
+
+        .sidebar h2 {
+            padding-left: 25px;
+            font-size: 22px;
+            color: white;
+        }
+
+        .sidebar ul {
+            padding-left: 25px;
+            list-style-type: none;
+            color: white;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+            font-size: 18px;
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 10px;
+            font-size: 36px;
+            margin-left: 50px;
+            background: none;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #main-content {
+            transition: margin-left 0.5s;
+            padding: 16px;
+        }
+
+        .openbtn {
+            background-color: #111;
+            color: white;
+            padding: 10px 15px;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .openbtn:hover {
+            background-color: #444;
         }
 
         .calculator-container {
