@@ -9,7 +9,7 @@
         <canvas id="particleCanvas"></canvas>
 
         <!-- Profile Icon at Bottom Right -->
-        <div id="profile-icon" class="profile-icon" onclick="openModal()">Profil Saya</div>
+        <div id="profile-icon" class="profile-icon" onclick="openModal()">👤Me</div>
 
         <!-- Profile Modal -->
         <div id="profile-modal" class="modal">
@@ -102,7 +102,7 @@
             }
 
             function openModal() {
-                document.getElementById("profile-modal").style.display = "block";
+                document.getElementById("profile-modal").style.display = "flex";
             }
 
             function closeModal() {
@@ -196,8 +196,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 90vh;
-            overflow: hidden;
+            height: 100vh;
+            overflow-y: auto; /* Enable scrolling */
             background: linear-gradient(135deg, #667eea, #764ba2);
         }
 
@@ -240,7 +240,8 @@
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            width: 300px;
+            width: 90%;
+            max-width: 400px;
             position: relative;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
@@ -396,6 +397,26 @@
 
         .equal:hover {
             background-color: #45a049;
+        }
+
+        @media (max-width: 768px) {
+            .profile-icon {
+                font-size: 18px;
+                padding: 10px;
+            }
+
+            .modal-content {
+                width: 80%;
+                padding: 15px;
+            }
+
+            .openbtn {
+                font-size: 16px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
         }
     </style>
 </html>
