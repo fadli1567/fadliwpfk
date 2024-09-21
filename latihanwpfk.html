@@ -6,19 +6,39 @@
     </head>
 
     <body>
+        <canvas id="particleCanvas"></canvas>
+
+        <!-- Profile Icon at Bottom Right -->
+        <div id="profile-icon" class="profile-icon" onclick="openModal()">Profil Saya</div>
+
+        <!-- Profile Modal -->
+        <div id="profile-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Profil</h2>
+                <p><strong>Nama:</strong> Muhammad Fadli Abdul Aziz</p>
+                <p><strong>Tanggal Lahir:</strong> 19 Januari 2005</p>
+                <p><strong>Pengalaman Organisasi:</strong></p>
+                <ul>
+                    <li><strong>SMA:</strong> Wakil Ketua Seksi Bidang Budi Pekerti dan Akhlak Mulia (OSIS)</li>
+                    <li><strong>Kuliah:</strong> HIMSI (Bagian Manajemen)</li>
+                </ul>
+            </div>
+        </div>
+
         <div id="sidebar" class="sidebar">
-            <h2>Rumus</h2>
+            <h2>Rumus bangunan</h2>
             <ul>
-                <li><strong>Segitiga</strong> <br> Luas = ½ × Alas × Tinggi</li>
-                <li><strong>Persegi</strong> <br> Luas = Sisi × Sisi</li>
-                <li><strong>Persegi Panjang</strong> <br> Luas = Panjang × Lebar</li>
+                <li><strong>Segitiga</strong> <br> Luas = 1/2 x Alas x Tinggi</li>
+                <li><strong>Persegi</strong> <br> Luas = Sisi x Sisi</li>
+                <li><strong>Persegi panjang</strong> <br> Luas = Panjang x Lebar</li>
             </ul>
             <button class="closebtn" onclick="closeSidebar()">×</button>
         </div>
 
         <div id="main-content">
             <div class="calculator-container">
-                <button class="openbtn" onclick="openSidebar()">☰ Rumus</button>
+                <button class="openbtn" onclick="openSidebar()">☰ Rumus-rumus</button>
                 <h1>MUHAMMAD FADLI ABDUL AZIZ</h1>
                 <div class="calculator">
                     <input type="text" id="hasil" disabled>
@@ -80,29 +100,166 @@
                 document.getElementById("sidebar").style.width = "0";
                 document.getElementById("main-content").style.marginLeft = "0";
             }
+
+            function openModal() {
+                document.getElementById("profile-modal").style.display = "block";
+            }
+
+            function closeModal() {
+                document.getElementById("profile-modal").style.display = "none";
+            }
+
+            // Particle animation
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let particlesArray = [];
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                particlesArray = [];
+                initParticles();
+            });
+
+            class Particle {
+                constructor(x, y, size, speedX, speedY) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = size;
+                    this.speedX = speedX;
+                    this.speedY = speedY;
+                    this.color = 'rgba(255, 255, 255, 0.8)';
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x > canvas.width || this.x < 0) {
+                        this.speedX = -this.speedX;
+                    }
+
+                    if (this.y > canvas.height || this.y < 0) {
+                        this.speedY = -this.speedY;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            }
+
+            function initParticles() {
+                for (let i = 0; i < 100; i++) {
+                    const size = Math.random() * 3 + 1;
+                    const x = Math.random() * (canvas.width - size * 2) + size;
+                    const y = Math.random() * (canvas.height - size * 2) + size;
+                    const speedX = Math.random() * 2 - 1;
+                    const speedY = Math.random() * 2 - 1;
+
+                    particlesArray.push(new Particle(x, y, size, speedX, speedY));
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw();
+                }
+
+                requestAnimationFrame(animateParticles);
+            }
+
+            initParticles();
+            animateParticles();
         </script>
+
     </body>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f9;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea, #764ba2);
         }
 
-        /* Sidebar styling */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Profile Icon in Bottom Right */
+        .profile-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #be0303;
+            color: white;
+            border-radius: 50%;
+            padding: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Modal for Profile */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
         .sidebar {
             height: 100%;
             width: 0;
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #111;
+            background-color: #222;
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
@@ -111,7 +268,7 @@
 
         .sidebar h2 {
             padding-left: 25px;
-            font-size: 22px;
+            font-size: 24px;
             color: white;
         }
 
@@ -129,9 +286,8 @@
         .sidebar .closebtn {
             position: absolute;
             top: 0;
-            right: 10px;
+            right: 20px;
             font-size: 36px;
-            margin-left: 50px;
             background: none;
             color: white;
             border: none;
@@ -144,18 +300,20 @@
         }
 
         .openbtn {
-            background-color: #111;
+            background-color: #222;
             color: white;
             padding: 10px 15px;
             font-size: 20px;
             cursor: pointer;
             border: none;
             margin-bottom: 20px;
-            border-radius: 5px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .openbtn:hover {
             background-color: #444;
+            transform: scale(1.05);
         }
 
         .calculator-container {
@@ -164,64 +322,70 @@
 
         h1 {
             margin-bottom: 20px;
-            font-size: 24px;
-            color: #333;
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .calculator {
-            background-color: #fff;
+            background: rgba(255, 255, 255, 0.15);
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            max-width: 300px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 350px;
             margin: auto;
         }
 
         #hasil {
             width: 100%;
-            height: 50px;
-            font-size: 24px;
+            height: 60px;
+            font-size: 26px;
             text-align: right;
-            padding-right: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
+            padding-right: 15px;
+            margin-bottom: 15px;
+            border: none;
             border-radius: 10px;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+            color: #fff;
         }
 
         .buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-gap: 10px;
+            grid-gap: 15px;
         }
 
         button {
-            height: 50px;
-            font-size: 18px;
+            height: 60px;
+            font-size: 20px;
             border: none;
             border-radius: 10px;
-            background-color: #f1f1f1;
-            color: #333;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
             cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         button:hover {
-            background-color: #ddd;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
         button:active {
-            background-color: #ccc;
+            background-color: rgba(255, 255, 255, 0.45);
+            transform: scale(1.02);
         }
 
         .clear {
-            background-color: #ff6b6b;
+            background-color: #ff4e4e;
             color: white;
         }
 
         .clear:hover {
-            background-color: #ff4a4a;
+            background-color: #ff1a1a;
         }
 
         .equal {
