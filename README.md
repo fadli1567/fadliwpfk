@@ -109,7 +109,7 @@
                 document.getElementById("profile-modal").style.display = "none";
             }
 
-            // Particle animation
+            
             const canvas = document.getElementById('particleCanvas');
             const ctx = canvas.getContext('2d');
 
@@ -198,7 +198,7 @@
             align-items: center;
             height: 100vh;
             overflow-y: auto; /* Enable scrolling */
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #151516, #020a63);
         }
 
         canvas {
