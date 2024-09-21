@@ -196,7 +196,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 90vh;
             overflow: hidden;
             background: linear-gradient(135deg, #667eea, #764ba2);
         }
@@ -306,7 +306,7 @@
             font-size: 20px;
             cursor: pointer;
             border: none;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
             border-radius: 8px;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
